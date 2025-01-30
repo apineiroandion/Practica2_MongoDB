@@ -18,7 +18,7 @@ public class DB_Con {
 
     // Constructores
     public DB_Con() {
-        this.host = "172.19.0.3";
+        this.host = "172.19.0.2";
         this.port = "27017";
         this.dbName = "mydb";
         this.user = "root";
@@ -27,7 +27,7 @@ public class DB_Con {
     }
 
     public DB_Con(String user, String password) {
-        this("172.19.0.3", "27017", "mydb", user, password);
+        this("172.19.0.2", "27017", "mydb", user, password);
     }
 
     public DB_Con(String host, String port, String dbName, String user, String password) {

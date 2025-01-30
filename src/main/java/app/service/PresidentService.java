@@ -1,10 +1,14 @@
 package app.service;
 
 import app.model.President;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoCollection;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Clase con los metodos CRUD del presidente
@@ -48,6 +52,28 @@ public class PresidentService {
         Document delete = new Document("name", name);
         collection.deleteOne(delete);
     }
+
+    /**
+     * Metodo para guardar un presidente en un archivo JSON
+     * @param president
+     */
+    public static void savePresidentToJson(President president, String directoryPath) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            File directory = new File(directoryPath);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            File file = new File(directory, president.getName() + ".json");
+            objectMapper.writeValue(file, president);
+            System.out.println("President saved to JSON file: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());;
+        }
+    }
+
+
+
 
 
 }
