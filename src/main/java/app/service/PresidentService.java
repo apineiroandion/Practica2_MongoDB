@@ -2,6 +2,7 @@ package app.service;
 
 import app.model.President;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 
 import org.bson.Document;
@@ -70,6 +71,26 @@ public class PresidentService {
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());;
         }
+    }
+
+    /**
+     * Metodo que muestra todos los presidentes por consola
+     */
+    public static void showAllPresidents(MongoCollection<Document> collection) {
+        FindIterable<Document> presidents = collection.find();
+        for (Document president : presidents) {
+            System.out.println(president.toJson());
+        }
+    }
+
+
+    public static void updatePresident(President president,String newName, int newAge, String newParty, MongoCollection<Document> collection) {
+        Document query = new Document("_id", president.getId());
+        Document update = new Document("$set", new Document("name", newName)
+                .append("age", newAge)
+                .append("party", newParty));
+        collection.updateOne(query, update);
+        System.out.println("President updated: " + president.getName());
     }
 
 
